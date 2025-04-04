@@ -1,0 +1,845 @@
+/* Modern Pomodoro Timer Styles */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-color: #ff6347; /* Tomato red */
+    --secondary-color: #4a6fa5;
+    --dark-color: #333;
+    --light-color: #f8f9fa;
+    --break-color: #4cd964;
+    --long-break-color: #5ac8fa;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --spacing: 1.5rem; /* Consistent vertical spacing */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, rgba(255, 99, 71, 0.15) 0%, rgba(74, 111, 165, 0.2) 100%);
+    color: var(--dark-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.6;
+    padding: 1rem;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(255, 99, 71, 0.1), transparent 70%),
+                radial-gradient(circle at bottom right, rgba(74, 111, 165, 0.1), transparent 70%);
+    z-index: -1;
+}
+
+.container {
+    background-color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    /* Add these styles to make layout vertical */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+h1 {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Mode selector styling */
+.mode-selector {
+    display: flex;
+    flex-direction: column;
+    background-color: #eee;
+    border-radius: 15px;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    /* Add these styles to make layout vertical */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.mode-btn {
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 300;
+    font-size: 0.9rem;
+}
+
+.mode-btn.active {
+    background-color: white;
+    box-shadow: var(--shadow);
+    font-weight: 400;
+}
+
+#pomodoro.active {
+    color: var(--primary-color);
+}
+
+#short-break.active {
+    color: var(--break-color);
+}
+
+#long-break.active {
+    color: var(--long-break-color);
+}
+
+/* Timer display */
+.timer {
+    font-size: 5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin: 0.5rem 0;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    /* Add these styles to make layout vertical */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--primary-color);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    width: 100%;
+    /* Add these styles to make layout vertical */
+    width: 100%;
+    padding: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow);
+}
+
+#pause {
+    background-color: var(--secondary-color);
+}
+
+#reset {
+    background-color: var(--dark-color);
+}
+
+/* Stats */
+.stats {
+    font-size: 0.9rem;
+    color: #666;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+#pomodoro-count {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .container {
+        width: 100%;
+        padding: 1.5rem;
+    }
+    
+    .timer {
+        font-size: 4rem;
+    }
+    
+    .mode-btn {
+        font-size: 0.8rem;
+    }
+    
+    button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+/* Settings Panel Styles */
+.settings-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+#settings-toggle {
+    background-color: var(--dark-color);
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+}
+
+.settings-panel {
+    position: fixed;
+    right: 20px;
+    bottom: 70px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    width: 300px;
+    max-width: 90vw;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 99;
+}
+
+.settings-panel.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.settings-panel h2 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.setting-item {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.setting-item label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    color: var(--dark-color);
+}
+
+.setting-item input {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.setting-item input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 99, 71, 0.2);
+}
+
+#save-settings {
+    background-color: var(--primary-color);
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 500px) {
+    .settings-panel {
+        width: 85vw;
+        padding: 1.2rem;
+        bottom: 80px;
+    }
+    
+    .setting-item {
+        margin-bottom: 0.8rem;
+    }
+}
+
+/* Task Manager Styles */
+.task-manager-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+#task-manager-toggle {
+    background-color: var(--dark-color);
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.task-manager {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    width: 100%;
+    max-width: 350px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 99;
+    padding: var(--spacing);
+    /* Added scroll and max-height */
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.task-manager.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-manager h2 {
+    color: var(--secondary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.add-task {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+#task-input {
+    flex: 1;
+    padding: 0.7rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+}
+
+#task-input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+#add-task-btn {
+    background-color: var(--secondary-color);
+    padding: 0.7rem 1rem;
+    width: auto;
+    white-space: nowrap;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.task-list-container h3 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #777;
+    font-size: 1.1rem;
+}
+
+#task-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    background-color: #f9f9f9;
+    border-left: 3px solid var(--secondary-color);
+    margin-bottom: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+    justify-content: space-between;
+}
+
+.task-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task-checkbox {
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: var(--secondary-color);
+    width: 18px;
+    height: 18px;
+}
+
+.task-text {
+    flex: 1;
+    text-align: left;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.task-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.task-btn {
+    background-color: transparent;
+    color: #666;
+    padding: 5px;
+    width: auto;
+    box-shadow: none;
+    font-size: 0.8rem;
+    border: none;
+    cursor: pointer;
+}
+
+.task-btn:hover {
+    color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: none;
+    box-shadow: none;
+}
+
+.delete-btn {
+    color: #ff5252;
+}
+
+/* Completed task styling */
+.task-item.completed {
+    border-left-color: var(--break-color);
+    background-color: rgba(248, 249, 250, 0.7);
+}
+
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Empty state */
+.empty-tasks {
+    color: #999;
+    font-style: italic;
+    padding: 1rem;
+    text-align: center;
+}
+
+.pomodoro-task {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+#current-task {
+    font-style: italic;
+    color: #555;
+}
+
+@media (max-width: 500px) {
+    .task-manager {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        max-width: 90vw;
+        padding: 1rem;
+    }
+    
+    .task-item {
+        padding: 0.7rem;
+    }
+    
+    .task-text {
+        font-size: 0.85rem;
+    }
+}
+
+/* Analytics & Productivity Tracking Styles */
+.analytics-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 100%;
+    max-width: 350px;
+    background-color: white;
+    border-radius: 15px;
+    padding: var(--spacing);
+    box-shadow: var(--shadow);
+    z-index: 90;
+}
+
+.analytics-container h2 {
+    color: var(--secondary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.analytics-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.analytics-card {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+}
+
+.analytics-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.analytics-card h3 {
+    color: var(--dark-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    position: relative;
+}
+
+.analytics-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.stat-label {
+    color: #777;
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.chart-container {
+    height: 120px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-placeholder {
+    color: #aaa;
+    font-style: italic;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.date-range-selector {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.range-btn {
+    background-color: #eee;
+    color: var(--dark-color);
+    font-size: 0.8rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+    width: auto;
+    transition: var(--transition);
+    box-shadow: none;
+}
+
+.range-btn:hover {
+    background-color: #ddd;
+    transform: none;
+    box-shadow: none;
+}
+
+.range-btn.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .analytics-container {
+        top: 10px;
+        left: 10px;
+        max-width: 90vw;
+        padding: 1rem;
+    }
+}
+
+/*------------------------*/
+
+/* Gamification & Rewards Styles */
+.rewards-container {
+    position: fixed;
+    bottom: 100px; /* Position above settings container */
+    right: 20px;
+    z-index: 95;
+}
+
+#rewards-toggle {
+    background-color: var(--dark-color);
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.rewards-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 15px;
+    padding: var(--spacing);
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 94;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.rewards-panel.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.rewards-panel h2 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.rewards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.reward-item {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: var(--transition);
+}
+
+.reward-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reward-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.reward-header h3 {
+    font-size: 1.1rem;
+    color: var(--dark-color);
+}
+
+.reward-status {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 50px;
+}
+
+.reward-status.unlocked {
+    background-color: var(--break-color);
+    color: white;
+}
+
+.reward-status.locked {
+    background-color: #ddd;
+    color: #777;
+}
+
+.reward-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.8rem;
+}
+
+.progress-container {
+    background-color: #eee;
+    border-radius: 10px;
+    height: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--primary-color);
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    color: white;
+}
+
+.upcoming-rewards {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.upcoming-rewards h3 {
+    color: #777;
+    font-size: 1.1rem;
+    margin-bottom: 0.7rem;
+    text-align: center;
+}
+
+.upcoming-rewards ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.upcoming-rewards li {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.upcoming-rewards li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes unlockAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+.reward-status.unlocked {
+    animation: unlockAnimation 1.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .rewards-container {
+        top: 10px;
+        right: 10px;
+    }
+
+    .rewards-panel {
+        top: 60px;
+        right: 10px;
+        max-width: 90vw;
+        padding: 1rem;
+    }
+}
+
+/*---------------------------------------*/

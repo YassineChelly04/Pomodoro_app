@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pomodoro Timer</h1>
+        
+        <div class="mode-selector">
+            <div class="mode-btn active" id="pomodoro">Pomodoro</div>
+            <div class="mode-btn" id="short-break">Short Break</div>
+            <div class="mode-btn" id="long-break">Long Break</div>
+        </div>
+        
+        <div class="timer" id="timer">25:00</div>
+        
+        <div class="controls">
+            <button id="start">Start</button>
+            <button id="pause">Pause</button>
+            <button id="reset">Reset</button>
+        </div>
+        
+        <div class="stats">
+            <p>Completed Pomodoros: <span id="pomodoro-count">0</span></p>
+        </div>
+    </div>
+    <div class="settings-container">
+        <button id="settings-toggle">Settings</button>
+        
+        <div class="settings-panel" id="settings-panel">
+            <h2>Timer Settings</h2>
+            
+            <div class="setting-item">
+                <label for="pomodoro-duration">Pomodoro Duration (minutes):</label>
+                <input type="number" id="pomodoro-duration" min="1" max="60" value="25">
+            </div>
+            
+            <div class="setting-item">
+                <label for="short-break-duration">Short Break Duration (minutes):</label>
+                <input type="number" id="short-break-duration" min="1" max="30" value="5">
+            </div>
+            
+            <div class="setting-item">
+                <label for="long-break-duration">Long Break Duration (minutes):</label>
+                <input type="number" id="long-break-duration" min="1" max="60" value="15">
+            </div>
+            
+            <button id="save-settings">Save Settings</button>
+        </div>
+    </div>
+    <div class="task-manager-container">
+        <button id="task-manager-toggle">Task Manager</button>
+        <div class="task-manager" id="task-manager">
+            <h2>Task Manager</h2>
+            
+            <div class="add-task">
+                <input type="text" id="task-input" placeholder="Enter a new task...">
+                <button id="add-task-btn">Add Task</button>
+            </div>
+            
+            <div class="task-list-container">
+                <h3>Your Tasks</h3>
+                <ul id="task-list">
+                    <!-- Tasks will be added here dynamically -->
+                </ul>
+            </div>
+            
+            <div class="pomodoro-task">
+                <h3>Current Pomodoro Task</h3>
+                <p id="current-task">No task selected</p>
+            </div>
+        </div>
+    </div>
+    <div class="analytics-container">
+        <button id="analytics-toggle">Show Productivity Analytics</button>
+        <div class="analytics-panel" id="analytics-panel" style="display:none;">
+            <h2>Productivity Analytics</h2>
+            
+            <div class="analytics-card">
+                <h3>Focus Summary</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Total Focus Time:</span>
+                    <span class="stat-value" id="total-focus-time">0 hrs</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Daily Average:</span>
+                    <span class="stat-value" id="daily-average">0 min</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Completion Rate:</span>
+                    <span class="stat-value" id="completion-rate">0%</span>
+                </div>
+            </div>
+            
+            <div class="analytics-card">
+                <h3>Session Breakdown</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Completed Sessions:</span>
+                    <span class="stat-value" id="total-sessions">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Average Session Length:</span>
+                    <span class="stat-value" id="avg-session-time">0 min</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Interruptions:</span>
+                    <span class="stat-value" id="interruption-count">0</span>
+                </div>
+            </div>
+            
+            <div class="analytics-card">
+                <h3>Task Distribution</h3>
+                <div class="chart-container" id="task-time-chart">
+                    <!-- Chart will be rendered here by JavaScript -->
+                    <p class="chart-placeholder">Task data visualization will appear here</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="date-range-selector">
+            <button class="range-btn active" id="today-stats">Today</button>
+            <button class="range-btn" id="week-stats">This Week</button>
+            <button class="range-btn" id="month-stats">This Month</button>
+        </div>
+    </div>
+    <div class="rewards-container">
+        <button id="rewards-toggle">Show Rewards</button>
+        <div class="rewards-panel" id="rewards-panel">
+            <h2>Your Achievements</h2>
+            <div class="rewards-list">
+                <div class="reward-item">
+                    <div class="reward-header">
+                        <h3>Focus Beginner</h3>
+                        <span class="reward-status unlocked">Unlocked!</span>
+                    </div>
+                    <p class="reward-description">Complete 5 Pomodoros</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 100%;"></div>
+                        <span class="progress-text">5/5</span>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-header">
+                        <h3>Focus Apprentice</h3>
+                        <span class="reward-status locked">Locked</span>
+                    </div>
+                    <p class="reward-description">Complete 25 Pomodoros</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 20%;"></div>
+                        <span class="progress-text">5/25</span>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-header">
+                        <h3>Time Master</h3>
+                        <span class="reward-status locked">Locked</span>
+                    </div>
+                    <p class="reward-description">Accumulate 1 hour of focus time</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 30%;"></div>
+                        <span class="progress-text">18/60 min</span>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-header">
+                        <h3>Consistency King</h3>
+                        <span class="reward-status locked">Locked</span>
+                    </div>
+                    <p class="reward-description">Complete Pomodoros for 5 days in a row</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 40%;"></div>
+                        <span class="progress-text">2/5 days</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upcoming-rewards">
+                <h3>Upcoming Milestones</h3>
+                <ul>
+                    <li>Focus Master - Complete 100 Pomodoros</li>
+                    <li>Time Lord - Accumulate 10 hours of focus time</li>
+                    <li>Productivity Guru - Complete 50 tasks</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="script.js">
+    </script>
+</body>
+</html>
