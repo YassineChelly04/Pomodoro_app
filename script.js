@@ -955,3 +955,196 @@ completeTimer = function() {
 initAchievements();
 
 /*----------------------------------------*/
+// Quotes Functionality
+const quotesToggle = document.getElementById('quotes-toggle');
+const quotesPanel = document.getElementById('quotes-panel');
+const quoteText = document.getElementById('quote-text');
+const quoteAuthor = document.getElementById('quote-author');
+const newQuoteBtn = document.getElementById('new-quote-btn');
+
+// Fallback quotes in case the API fails
+const fallbackQuotes = [
+    {
+        text: "The secret of getting ahead is getting started.",
+        author: "Mark Twain"
+    },
+    {
+        text: "Focus on being productive instead of busy.",
+        author: "Tim Ferriss"
+    },
+    {
+        text: "The way to get started is to quit talking and begin doing.",
+        author: "Walt Disney"
+    },
+    {
+        text: "It's not about having time, it's about making time.",
+        author: "Unknown"
+    },
+    {
+        text: "Productivity is never an accident. It is always the result of a commitment to excellence, intelligent planning, and focused effort.",
+        author: "Paul J. Meyer"
+    },
+    {
+        text: "Don't watch the clock; do what it does. Keep going.",
+        author: "Sam Levenson"
+    },
+    {
+        text: "The most effective way to do it, is to do it.",
+        author: "Amelia Earhart"
+    },
+    {
+        text: "You don't have to be great to start, but you have to start to be great.",
+        author: "Zig Ziglar"
+    },
+    {
+        text: "Concentrate all your thoughts upon the work in hand. The sun's rays do not burn until brought to a focus.",
+        author: "Alexander Graham Bell"
+    },
+    {
+        text: "The key is not to prioritize what's on your schedule, but to schedule your priorities.",
+        author: "Stephen Covey"
+    },
+    {
+        text: "Time is what we want most, but what we use worst.",
+        author: "William Penn"
+    },
+    {
+        text: "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work.",
+        author: "Steve Jobs"
+    },
+    {
+        text: "The difference between successful people and very successful people is that very successful people say 'no' to almost everything.",
+        author: "Warren Buffett"
+    },
+    {
+        text: "You will never find time for anything. If you want time, you must make it.",
+        author: "Charles Buxton"
+    },
+    {
+        text: "Until we can manage time, we can manage nothing else.",
+        author: "Peter Drucker"
+    }
+];
+
+// Toggle quotes panel
+quotesToggle.addEventListener('click', () => {
+    quotesPanel.classList.toggle('active');
+});
+
+// Function to fetch a quote from ZenQuotes API
+async function fetchQuote() {
+    try {
+        const response = await fetch('https://zenquotes.io/api/random');
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const data = await response.json();
+        if (data && data[0]) {
+            return {
+                text: data[0].q,
+                author: data[0].a
+            };
+        } else {
+            throw new Error('Invalid response format');
+        }
+    } catch (error) {
+        console.error('Error fetching quote:', error);
+        // Return a random fallback quote if API fails
+        const randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
+        return fallbackQuotes[randomIndex];
+    }
+}
+
+// Function to display a random quote
+async function displayRandomQuote() {
+    // Remove animation class if it exists
+    quoteText.classList.remove('new-quote-animation');
+    quoteAuthor.classList.remove('new-quote-animation');
+    
+    // Trigger reflow to restart animation
+    void quoteText.offsetWidth;
+    void quoteAuthor.offsetWidth;
+    
+    // Display loading state
+    quoteText.textContent = "Loading quote...";
+    quoteAuthor.textContent = "";
+    
+    // Get quote from API
+    const quote = await fetchQuote();
+    
+    // Update the text with animation
+    quoteText.textContent = quote.text;
+    quoteAuthor.textContent = `— ${quote.author}`;
+    
+    // Add animation class
+    quoteText.classList.add('new-quote-animation');
+    quoteAuthor.classList.add('new-quote-animation');
+}
+
+// Event listener for new quote button
+newQuoteBtn.addEventListener('click', displayRandomQuote);
+
+// Display initial random quote
+displayRandomQuote();
+
+// Show a new quote when a Pomodoro is completed
+const originalCompleteTimerWithRewards = completeTimer;
+completeTimer = function() {
+    originalCompleteTimerWithRewards();
+    
+    if (currentMode === 'pomodoro') {
+        displayRandomQuote();
+    }
+};
+
+
+// Dark Mode Functionality
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+const darkModePanel = document.getElementById('dark-mode-panel');
+const darkModeSwitch = document.getElementById('dark-mode-switch');
+
+// Check if dark mode was previously enabled
+function loadDarkModePreference() {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    darkModeSwitch.checked = isDarkMode;
+    
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
+}
+
+// Toggle dark mode panel visibility
+darkModeToggle.addEventListener('click', () => {
+    darkModePanel.classList.toggle('active');
+});
+
+// Toggle dark mode when switch is clicked
+darkModeSwitch.addEventListener('change', () => {
+    if (darkModeSwitch.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'true');
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'false');
+    }
+});
+
+// Close panel when clicking outside of it
+document.addEventListener('click', (event) => {
+    if (!darkModePanel.contains(event.target) && 
+        !darkModeToggle.contains(event.target) && 
+        darkModePanel.classList.contains('active')) {
+        darkModePanel.classList.remove('active');
+    }
+});
+
+// Close panel with ESC key
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && darkModePanel.classList.contains('active')) {
+        darkModePanel.classList.remove('active');
+    }
+});
+
+// Load dark mode preference on page load
+loadDarkModePreference();
