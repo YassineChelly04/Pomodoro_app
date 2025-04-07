@@ -23,7 +23,9 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, rgba(255, 99, 71, 0.15) 0%, rgba(74, 111, 165, 0.2) 100%);
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
     color: var(--dark-color);
     min-height: 100vh;
     display: flex;
@@ -34,6 +36,18 @@ body {
     position: relative;
 }
 
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 body::before {
     content: '';
     position: absolute;
@@ -41,9 +55,10 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at top left, rgba(255, 99, 71, 0.1), transparent 70%),
+    background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.1), transparent 70%),
                 radial-gradient(circle at bottom right, rgba(74, 111, 165, 0.1), transparent 70%);
     z-index: -1;
+    pointer-events: none;
 }
 
 .container {
@@ -772,7 +787,9 @@ button:active {
     left: 5px;
     transform: translateY(-50%);
     font-size: 0.7rem;
-    color: white;
+    color: var(--dark-color);
+    text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.8);
+    font-weight: 600;
 }
 
 .upcoming-rewards {
@@ -843,3 +860,376 @@ button:active {
 }
 
 /*---------------------------------------*/
+/* Motivational Quotes Styles */
+.quotes-container {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    z-index: 90;
+}
+
+#quotes-toggle {
+    background-color: var(--secondary-color);
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.quotes-panel {
+    position: fixed;
+    bottom: 140px;
+    left: 20px;
+    background-color: white;
+    border-radius: 15px;
+    padding: var(--spacing);
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateX(-20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 89;
+}
+
+.quotes-panel.active {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.quotes-panel h2 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.quote-display {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.quote-display::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 3rem;
+    color: rgba(0, 0, 0, 0.1);
+    font-family: serif;
+    line-height: 1;
+}
+
+.quote-text {
+    font-size: 1.1rem;
+    color: var(--dark-color);
+    font-style: italic;
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+.quote-author {
+    font-size: 0.9rem;
+    color: #777;
+    text-align: right;
+    font-weight: 500;
+}
+
+#new-quote-btn {
+    background-color: var(--secondary-color);
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.new-quote-animation {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .quotes-container {
+        bottom: 160px;
+        left: 10px;
+    }
+    
+    .quotes-panel {
+        bottom: 220px;
+        left: 10px;
+        max-width: 90vw;
+        padding: 1rem;
+    }
+    
+    .quote-text {
+        font-size: 1rem;
+    }
+}
+
+/*------------------------------*/
+/* Dark Mode Styles */
+.dark-mode-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 95;
+}
+
+#dark-mode-toggle {
+    background-color: #333;
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+    color: white;
+}
+
+.dark-mode-panel {
+    position: fixed;
+    bottom: 70px;
+    left: 20px;
+    background-color: white;
+    border-radius: 15px;
+    padding: var(--spacing);
+    width: 250px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 94;
+}
+
+.dark-mode-panel.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.dark-mode-panel h2 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.mode-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.mode-label {
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+.mode-description {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* Switch toggle styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Dark theme variables and styles */
+body.dark-mode {
+    background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
+    color: #f1f1f1;
+}
+
+body.dark-mode .container,
+body.dark-mode .settings-panel,
+body.dark-mode .task-manager,
+body.dark-mode .rewards-panel,
+body.dark-mode .quotes-panel,
+body.dark-mode .analytics-panel,
+body.dark-mode .dark-mode-panel {
+    background-color: #222831;
+    color: #f1f1f1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .task-item,
+body.dark-mode .analytics-card,
+body.dark-mode .quote-display,
+body.dark-mode .reward-item {
+    background-color: #393e46;
+    border-color: #4e5561;
+}
+
+body.dark-mode .mode-selector {
+    background-color: #1a1a2e;
+}
+
+body.dark-mode .mode-btn {
+    color: #aaa;
+}
+
+body.dark-mode .mode-btn.active {
+    background-color: #393e46;
+    color: #f1f1f1;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+    color: #ecf0f1;
+}
+
+body.dark-mode .timer {
+    color: #ecf0f1;
+}
+
+/* Button styles in dark mode */
+body.dark-mode button {
+    background-color: #0f3460;
+}
+
+body.dark-mode #start {
+    background-color: #00b7ff;
+}
+
+body.dark-mode #pause {
+    background-color: #003f8b;
+}
+
+body.dark-mode #reset {
+    background-color: #150052;
+}
+
+body.dark-mode #save-settings,
+body.dark-mode #new-quote-btn {
+    background-color: #4361ee;
+}
+
+body.dark-mode #add-task-btn {
+    background-color: #3a86ff;
+}
+
+body.dark-mode .range-btn {
+    background-color: #2d3748;
+    color: #cbd5e0;
+}
+
+body.dark-mode .range-btn.active {
+    background-color: #4361ee;
+    color: white;
+}
+
+/* Form controls in dark mode */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="number"] {
+    background-color: #2d3748;
+    border-color: #4a5568;
+    color: #f1f1f1;
+}
+
+body.dark-mode input[type="text"]::placeholder {
+    color: #a0aec0;
+}
+
+/* Other elements */
+body.dark-mode .task-text,
+body.dark-mode .stat-value,
+body.dark-mode .quote-text {
+    color: #ecf0f1;
+}
+
+body.dark-mode .stat-label,
+body.dark-mode .quote-author,
+body.dark-mode .mode-description,
+body.dark-mode .task-item.completed .task-text {
+    color: #a0aec0;
+}
+
+body.dark-mode .progress-container {
+    background-color: #4a5568;
+}
+
+body.dark-mode .progress-bar {
+    background-color: #4361ee;
+}
+
+body.dark-mode .progress-text {
+    color: #f1f1f1;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.8);
+}
+
+body.dark-mode .task-item.completed {
+    border-left-color: #52b788;
+    background-color: #2d3748;
+}
+
+body.dark-mode .reward-status.unlocked {
+    background-color: #52b788;
+}
+
+body.dark-mode .reward-status.locked {
+    background-color: #4a5568;
+    color: #a0aec0;
+}
