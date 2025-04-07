@@ -92,6 +92,14 @@ The app should work in all modern browsers including:
 - Safari
 - Edge
 
+## What's New in Version 2.0
+We've introduced some exciting visual and personalization features in this new release to enhance your focus experience:
+
+🎨 Vibrant Dynamic Background: Enjoy a visually engaging timer environment with smooth, dynamic background transitions to keep your workspace feeling fresh and motivating.
+
+🌙 Dark Mode (Beta): Introducing the first version of dark mode! Reduce eye strain and match your system's aesthetic with this sleek new look.
+
+Stay tuned—this is just the beginning of more personalization features coming your way!
 
 ## Contributing
 
@@ -104,7 +112,6 @@ Planned features for future releases:
 - More detailed historical analytics
 - Additional achievement types
 - Sound customization options
-- Dark mode support
 - Customizable Themes & UI Personalization
 - Ambient Sound & Focus Mode
 
